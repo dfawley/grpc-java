@@ -238,6 +238,9 @@ public final class AutoConfiguredLoadBalancerFactory {
         LinkedHashSet<String> policiesTried = new LinkedHashSet<>();
         for (LbConfig lbConfig : lbConfigs) {
           String policy = lbConfig.getPolicyName();
+          if (policy == GRPCLB_POLICY_NAME && !haveBalancerAddress) {
+            continue;
+          }
           LoadBalancerProvider provider = registry.getProvider(policy);
           if (provider == null) {
             policiesTried.add(policy);
